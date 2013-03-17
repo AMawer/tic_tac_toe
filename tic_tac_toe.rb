@@ -30,11 +30,11 @@ class TicTacToe
 	end
 
 	def self.draw_board()
-		print "\n"
-		self.draw_row_with_line(0)
-		self.draw_row_with_line(1)
-		self.draw_row(2)
-		print "\n\n"
+		"\n" +
+		self.draw_row_with_line(0) +
+		self.draw_row_with_line(1) +
+		self.draw_row(2) + 
+		"\n\n"
 	end
 
 	def self.players_turn()

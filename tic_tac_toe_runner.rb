@@ -1,1 +1,3 @@
-tic_tac_toe_runner.rb
+require "./tic_tac_toe.rb"
+
+print TicTacToe.draw_board()
