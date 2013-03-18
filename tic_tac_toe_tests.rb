@@ -4,23 +4,6 @@ require './tic_tac_toe_ai.rb'
 
 class TicTacToeTest < Test::Unit::TestCase
 
-	def test_draw_space
-		# colour feature will be added later to TicTacToe.draw_space
-		assert_equal "x", TicTacToe.draw_space("x")
-	end
-
-	def test_draw_space_with_line
-		assert_equal "3 | ", TicTacToe.draw_space_with_line("3")
-	end
-
-	def test_draw_row
-		assert_equal "  7 | 8 | 9", TicTacToe.draw_row(2)
-	end
-
-	def test_draw_row_with_line
-		assert_equal "  4 | 5 | 6\n  ---------\n", TicTacToe.draw_row_with_line(1)
-	end
-
 	def test_draw_board
 		assert_equal "\n  1 | 2 | 3\n  ---------\n  4 | 5 | 6\n  ---------\n  7 | 8 | 9\n\n", TicTacToe.draw_board()
 	end
@@ -38,7 +21,9 @@ class TicTacToeTest < Test::Unit::TestCase
 	end
 
 	def test_AI_play
-		
+
 	end
+
+	
 
 end
