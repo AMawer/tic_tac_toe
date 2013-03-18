@@ -9,6 +9,10 @@ class TicTacToe
 		@board
 	end
 
+	def self.players_turn=(value)
+		@players_turn = value
+	end
+
 	def self.draw_space(space)
 		# add colours later using rainbow, i.e. space.foreground(:blue) or space.foreground(:red)
 		space
@@ -66,6 +70,57 @@ class TicTacToe
 	end
 
 	def self.comps_turn()
+		coordinates = AI.play()
+		self.mark_space(coordinates)
+	end
+
+	def self.play_turn()
+	end
+
+	# check if there is any line in the board that has
+	# 	a) two o's and an empty space
+	# 	b) two x's and an empty space
+	# 	c) three o's
+	# 	d) three x's
+
+	# first method: check_board(), which calls check_lines
+	# second method: check_lines(), which calls check_line
+	# third method: check_line(), which checks if line has between a) and d)
+
+	# so check_line() 
+	# 	takes an array of three elements, each element being coordinates
+	# 	gets the value of each coordinate from @board
+	# 	and returns whether the line satisfies the criteria
+
+	# the critera is between a) and d), and each of them will be a lambda
+
+	def self.get_coordinates_space(coordinates)
+		row = coordinates[0]
+		column = coordinates[1]
+		@board[row][column]
+	end
+
+	def self.get_lines_spaces(line)
+		spaces = []
+		space1 = self.get_coordinates_space(line[0])
+		space2 = self.get_coordinates_space(line[1])
+		space3 = self.get_coordinates_space(line[2])
+		spaces << space1 << space2 << space3
+	end
+
+	def self.check_line(line, method)
+		spaces = self.get_lines_spaces(line)
+		method.call(spaces)
+	end
+
+	def self.check_lines
+		lines = [[[0, 0], [0, 1], [0, 2]], [[1, 0], [1, 1], [1, 2]], [[2, 0], [2, 1], [2, 2]], [[0, 0], [1, 0], [2, 0]], [[0, 1], [1, 1], [2, 1]], [[0, 2], [1, 2], [2, 2]], [[0, 2], [1, 1], [2, 0]], [[0, 0], [1, 1], [2, 2]]]
+		spaces_to_play = []
+		for i in 0..7
+			space = check_line(lines[i], method)
+			spaces_to_play << space if space != 0 
+		end
+		spaces_to_play
 	end
 
 end

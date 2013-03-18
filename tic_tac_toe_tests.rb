@@ -1,9 +1,11 @@
 require 'test/unit'
 require './tic_tac_toe.rb'
+require './tic_tac_toe_ai.rb'
 
 class TicTacToeTest < Test::Unit::TestCase
 
 	def test_draw_space
+		# colour feature will be added later to TicTacToe.draw_space
 		assert_equal "x", TicTacToe.draw_space("x")
 	end
 
@@ -31,8 +33,12 @@ class TicTacToeTest < Test::Unit::TestCase
 	def test_mark_space
 		TicTacToe.mark_space([1, 2])
 		assert_equal [["1", "2", "3"], ["4", "5", "x"], ["7", "8", "9"]], TicTacToe.board
-		TicTacToe.mark_space([1, 2])
-		assert_equal [["1", "2", "3"], ["4", "5", "x"], ["7", "8", "9"]], TicTacToe.board
+		TicTacToe.mark_space([2, 0])
+		assert_equal [["1", "2", "3"], ["4", "5", "x"], ["x", "8", "9"]], TicTacToe.board
+	end
+
+	def test_AI_play
+		
 	end
 
 end
