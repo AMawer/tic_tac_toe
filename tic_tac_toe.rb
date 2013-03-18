@@ -101,26 +101,56 @@ class TicTacToe
 	end
 
 	def self.get_lines_spaces(line)
-		spaces = []
+		three_spaces = []
 		space1 = self.get_coordinates_space(line[0])
 		space2 = self.get_coordinates_space(line[1])
 		space3 = self.get_coordinates_space(line[2])
-		spaces << space1 << space2 << space3
+		three_spaces << space1 << space2 << space3
+	end
+
+	def self.possible(three_spaces, mark)
+		empty_spaces = three_spaces.select { |space| space.to_i != 0 } # to_i returns 0 if string does not have an integer
+		if three_spaces.count(mark) == 2 and empty_spaces.size == 1
+			empty_spaces[0].to_i
+		end
+	end
+
+	could_the_comp_win = lambda do |three_spaces|
+		self.possible(three_spaces, "o")
+	end
+
+	could_the_comp_lose = lambda do |three_spaces|
+		self.possible(three_spaces, "x")
+	end
+
+	did_player_win_game = lambda do |three_spaces|
+		true if three_spaces.all?("x") == 3
+	end
+
+	did_player_lose_game = lambda do |three_spaces|
+		true if three_spaces.all?("o") == 3
 	end
 
 	def self.check_line(line, method)
-		spaces = self.get_lines_spaces(line)
-		method.call(spaces)
+		three_spaces = self.get_lines_spaces(line)
+		method.call(three_spaces)
 	end
 
-	def self.check_lines
+	def self.check_lines(method)
 		lines = [[[0, 0], [0, 1], [0, 2]], [[1, 0], [1, 1], [1, 2]], [[2, 0], [2, 1], [2, 2]], [[0, 0], [1, 0], [2, 0]], [[0, 1], [1, 1], [2, 1]], [[0, 2], [1, 2], [2, 2]], [[0, 2], [1, 1], [2, 0]], [[0, 0], [1, 1], [2, 2]]]
 		spaces_to_play = []
 		for i in 0..7
-			space = check_line(lines[i], method)
+			space = self.check_line(lines[i], method)
 			spaces_to_play << space if space != 0 
 		end
 		spaces_to_play
+	end
+
+	def check_board(method)
+		spaces_to_play = check_lines(method)
+		if spaces_to_play.size != 0 
+			spaces_to_play.sample
+		end
 	end
 
 end
