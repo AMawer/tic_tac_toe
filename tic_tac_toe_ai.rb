@@ -1,16 +1,18 @@
-require './tic_tac_toe.rb'
+require_relative 'tic_tac_toe'
 
-class AI < TicTacToe
+
+class AI
 
 	def self.play()
-		if check_board(win) != 0
-			check_board(win)
-		elsif check_board(lose) != 0
-			check_board(lose)
+		@tictactoe = TicTacToe.new
+		if @tictactoe.check_board(win) != 0
+			@tictactoe.check_board(win)
+		elsif @tictactoe.check_board(lose) != 0
+			@tictactoe.check_board(lose)
 		else
-			spaces = spaces.values.grep(/[1-9]/)
-			spaces.map { |num| num.to_i }
-			spaces.sample.to_i
+			@tictactoe.spaces = @tictactoe.spaces.values.grep(/[1-9]/)
+			@tictactoe.spaces.map { |num| num.to_i }
+			@tictactoe.spaces.sample.to_i
 		end
 	end
 end

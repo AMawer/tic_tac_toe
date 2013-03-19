@@ -1,4 +1,4 @@
-#require_relative 'tic_tac_toe_ai.rb'
+#require_relative 'tic_tac_toe_ai'
 
 class TicTacToe
 	attr_reader :board
@@ -8,6 +8,7 @@ class TicTacToe
 		@players_mark = "x"
 		@comps_mark   = "o"
 		@players_turn = true
+		#@ai = AI.new
 		# @game_won    = false
 	end
 
@@ -196,5 +197,6 @@ class TicTacToe
 	could_the_comp_win = lambda do |three_spaces|
 		possible(three_spaces, @comps_mark)
 	end
-
 end
+
+@tictactoe = TicTacToe.new
