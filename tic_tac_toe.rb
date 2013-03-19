@@ -8,6 +8,7 @@ class TicTacToe
 		@players_mark = "x"
 		@comps_mark   = "o"
 		@players_turn = true
+		@game_ won    = false
 	end
 
 	def 
@@ -53,6 +54,13 @@ class TicTacToe
 		comps_turn()
 	end
 
+	def game_won?()
+		check_board()
+	end
+
+	def play_game()
+		while 
+	end
 
 	# check if there is any line in the board that has
 	# 	a) two o's and an empty space
@@ -70,50 +78,6 @@ class TicTacToe
 	# 	and returns whether the line satisfies the criteria
 
 	# the critera is between a) and d), and each of them will be a lambda
-
-	def get_coordinates_space(coordinates)
-		row = coordinates[0]
-		column = coordinates[1]
-		@board[row][column]
-	end
-
-	def get_lines_spaces(line)
-		three_spaces = []
-		space1 = get_coordinates_space(line[0])
-		space2 = get_coordinates_space(line[1])
-		space3 = get_coordinates_space(line[2])
-		three_spaces << space1 << space2 << space3
-	end
-
-	def possible(three_spaces, mark)
-		empty_spaces = three_spaces.select { |space| space.to_i != 0 } # to_i returns 0 if string does not have an integer
-		if three_spaces.count(mark) == 2 and empty_spaces.size == 1
-			empty_spaces[0].to_i
-		end
-	end
-
-	could_the_player_win = lambda do |three_spaces|
-		possible(three_spaces, @players_mark)
-	end
-
-	could_the_comp_win = lambda do |three_spaces|
-		possible(three_spaces, @comps_mark)
-	end
-
-	did_player_win_game = lambda do |three_spaces|
-		true if three_spaces.all?(@players_mark) == 3
-	end
-
-	did_comp_win_game = lambda do |three_spaces|
-		true if three_spaces.all?(@comps_mark) == 3
-	end
-
-	def check_board(method)
-		spaces_to_play = check_lines(method)
-		if spaces_to_play.size != 0 
-			spaces_to_play.sample
-		end
-	end
 
 	private
 
@@ -143,12 +107,26 @@ class TicTacToe
 		"\n#{gap}---------\n"
 	end
 
+	def get_coordinates_space(coordinates)
+		row = coordinates[0]
+		column = coordinates[1]
+		@board[row][column]
+	end
+
+	def get_lines_spaces(line)
+		three_spaces = []
+		space1 = get_coordinates_space(line[0])
+		space2 = get_coordinates_space(line[1])
+		space3 = get_coordinates_space(line[2])
+		three_spaces << space1 << space2 << space3
+	end
+
 	def check_line(line, method)
 		three_spaces = get_lines_spaces(line)
 		method.call(three_spaces)
 	end
 
-	def check_lines(method)
+	def check_lines_for_spaces_to_play(method)
 		lines = [
 			[[0, 0], [0, 1], [0, 2]], 
 			[[1, 0], [1, 1], [1, 2]], 
@@ -165,6 +143,57 @@ class TicTacToe
 			spaces_to_play << space if space != 0 
 		end
 		spaces_to_play
+	end
+
+
+	def check_lines(method)
+		lines = [
+			[[0, 0], [0, 1], [0, 2]], 
+			[[1, 0], [1, 1], [1, 2]], 
+			[[2, 0], [2, 1], [2, 2]], 
+			[[0, 0], [1, 0], [2, 0]], 
+			[[0, 1], [1, 1], [2, 1]], 
+			[[0, 2], [1, 2], [2, 2]], 
+			[[0, 2], [1, 1], [2, 0]], 
+			[[0, 0], [1, 1], [2, 2]]
+		]
+		for i in 0..7
+			check_line(lines[i], method)
+		end
+	end
+
+	def check_board(method)
+		check_lines(method)
+	end
+
+	def check_board_for_spaces_to_play(method)
+		spaces_to_play = check_lines(method)
+		if spaces_to_play.size != 0 
+			spaces_to_play.sample
+		end
+	end
+
+	def possible(three_spaces, mark)
+		empty_spaces = three_spaces.select { |space| space.to_i != 0 } # to_i returns 0 if string does not have an integer
+		if three_spaces.count(mark) == 2 and empty_spaces.size == 1
+			empty_spaces[0].to_i
+		end
+	end
+
+	could_the_player_win = lambda do |three_spaces|
+		possible(three_spaces, @players_mark)
+	end
+
+	could_the_comp_win = lambda do |three_spaces|
+		possible(three_spaces, @comps_mark)
+	end
+
+	did_player_win_game = lambda do |three_spaces|
+		three_spaces.all?(@players_mark) == 3
+	end
+
+	did_comp_win_game = lambda do |three_spaces|
+		three_spaces.all?(@comps_mark) == 3
 	end
 
 end
