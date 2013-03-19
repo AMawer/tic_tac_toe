@@ -1,4 +1,4 @@
-require 'rainbow'
+#require_relative 'tic_tac_toe_ai.rb'
 
 class TicTacToe
 	attr_reader :board
@@ -8,10 +8,8 @@ class TicTacToe
 		@players_mark = "x"
 		@comps_mark   = "o"
 		@players_turn = true
-		@game_ won    = false
+		# @game_won    = false
 	end
-
-	def 
 
 	def draw_board()
 		"\n" +
@@ -49,17 +47,28 @@ class TicTacToe
 	end
 
 	def play_turn()
-		draw_board()
+		print draw_board()
 		players_turn()
 		comps_turn()
 	end
 
-	def game_won?()
-		check_board()
+	did_player_win_game = lambda do |three_spaces|
+		three_spaces.all?(@players_mark) == 3
+	end
+
+	did_comp_win_game = lambda do |three_spaces|
+		three_spaces.all?(@comps_mark) == 3
+	end
+
+	def game_won?
+		#check_board(did_comp_win_game) || check_board(did_player_win_game)
+		false
 	end
 
 	def play_game()
-		while 
+		until game_won? do
+			play_turn()
+		end
 	end
 
 	# check if there is any line in the board that has
@@ -79,7 +88,7 @@ class TicTacToe
 
 	# the critera is between a) and d), and each of them will be a lambda
 
-	private
+	#private
 
 	def draw_space(space)
 		# add colours later using rainbow, i.e. space.foreground(:blue) or space.foreground(:red)
@@ -186,14 +195,6 @@ class TicTacToe
 
 	could_the_comp_win = lambda do |three_spaces|
 		possible(three_spaces, @comps_mark)
-	end
-
-	did_player_win_game = lambda do |three_spaces|
-		three_spaces.all?(@players_mark) == 3
-	end
-
-	did_comp_win_game = lambda do |three_spaces|
-		three_spaces.all?(@comps_mark) == 3
 	end
 
 end

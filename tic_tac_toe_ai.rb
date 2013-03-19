@@ -1,6 +1,7 @@
 require './tic_tac_toe.rb'
 
 class AI < TicTacToe
+
 	def self.play()
 		if check_board(win) != 0
 			check_board(win)
